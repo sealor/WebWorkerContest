@@ -348,3 +348,47 @@ test("fillTurtleTest: fill small rectangle", function() {
 	equal(convertToText(border), fullBorder);
 });
 
+test("fillTurtleTest: fill labyrinth", function() {
+	turtleX = 1;
+	turtleY = 2;
+	turtleDir = 1;
+
+	var border = "" +
+		"        1 \n" +
+		" 111 111 1\n" +
+		"1   1    1\n" +
+		"1      11 \n" +
+		"1  1111 \n" +
+		" 1  1\n" +
+		"  11 \n";
+
+	border = convertToField(border);
+	var vis = convertToText(border);
+
+	fillWalkStart(border);
+	for (var i = 0; i < 500 && turtleDir !== null; i++) {
+		fillWalk(border);
+
+		if (turtleDir !== null) {
+			fillSpace(border);
+			vis = convertToText(border);
+			// console.log(vis);
+
+			turtleX += deltaX[turtleDir];
+			turtleY += deltaY[turtleDir];
+		}
+	}
+	border[turtleX][turtleY] = true;
+
+	var fullBorder = "\n" +
+		"        1\n" +
+		" 111 11111\n" +
+		"11111  111\n" +
+		"11111 111\n" +
+		"1111111\n" +
+		" 1111\n" +
+		"  11\n";
+
+	equal(convertToText(border), fullBorder);
+});
+

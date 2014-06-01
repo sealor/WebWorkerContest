@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="jquery-2.1.1.js"></script>
+	<script src="qunit-1.14.0.js"></script>
+	<link rel="stylesheet" href="qunit-1.14.0.css">
+</head>
+<body>
+<script src="check2.js"></script>
+<script>
+
+function isDefined(obj) {
+	return typeof obj !== 'undefined';
+};
+
+var deltaX = [-1, +0, +1, +1, +1, +0, -1, -1];
+var deltaY = [-1, -1, -1, +0, +1, +1, +1, +0];
+
+var turtleX = 1;
+var turtleY = 5;
+var turtleDir = 0;
+
+var border = new Array(200);
+for (var i = 0; i < 200; i++) {
+	border[i] = new Array(200);
+}
+
+$(document).ready(function() {
+	var history = window.history;
+	var collisions = window.collisions;
+
+	var context = document.getElementById('canvas').getContext("2d");
+	context.fillStyle = "#F9F9F9";
+	context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+
+	var length = collisions.length;
+	var curPosX = collisions[length - 1][0];
+	var curPosY = collisions[length - 1][1];
+	for (var i = 0; i < length; i++) {
+		var startX = collisions[i][0];
+		var startY = collisions[i][1];
+
+		if (border[startX][startY] !== true) {
+			turtleX = startX;
+			turtleY = startY;
+
+			do {
+				while (history[turtleX + deltaX[turtleDir]][turtleY + deltaY[turtleDir]] === true) {
+					turtleDir = (turtleDir + 1) % 8;
+				}
+				while (history[turtleX + deltaX[turtleDir]][turtleY + deltaY[turtleDir]] !== true) {
+					turtleDir = (turtleDir + 1) % 8;
+				}
+
+				turtleDir = (turtleDir + 7) % 8;
+
+				turtleX += deltaX[turtleDir];
+				turtleY += deltaY[turtleDir];
+
+				border[turtleX][turtleY] = true;
+			} while (turtleX !== startX || turtleY !== startY);
+
+			do {
+				while (history[turtleX + deltaX[turtleDir]][turtleY + deltaY[turtleDir]] === true) {
+					turtleDir = (turtleDir + 1) % 8;
+				}
+				while (history[turtleX + deltaX[turtleDir]][turtleY + deltaY[turtleDir]] !== true) {
+					turtleDir = (turtleDir + 1) % 8;
+				}
+
+				turtleDir = (turtleDir + 7) % 8;
+
+				var checkDir = (turtleDir + 2) % 8;
+				var checkX = turtleX + deltaX[checkDir];
+				var checkY = turtleY + deltaY[checkDir];
+
+				if (checkX !== curPosX && checkY !== curPosY) {
+					var check0Dir = (checkDir + 7) % 8;
+					var check1Dir = checkDir;
+					var check2Dir = (checkDir + 1) % 8;
+
+					if (border[checkX + deltaX[check0Dir]][checkY + deltaY[check0Dir]] !== true
+						&& border[checkX + deltaX[check1Dir]][checkY + deltaY[check1Dir]] !== true
+						&& border[checkX + deltaX[check2Dir]][checkY + deltaY[check2Dir]] !== true) {
+						border[checkX][checkY] = true;
+					}
+				}
+
+				turtleX += deltaX[turtleDir];
+				turtleY += deltaY[turtleDir];
+
+				border[turtleX][turtleY] = true;
+			} while (turtleX !== startX || turtleY !== startY);
+		}
+	}
+
+	for (var x = 0; x < history.length; x++) {
+		for (var y = 0; y < history[x].length; y++) {
+			if (history[x][y] === true) {
+				context.fillStyle = "#9FC0D0";
+				drawDot(context, x, y);
+			}
+		}
+	}
+	for (var x = 0; x < border.length; x++) {
+		for (var y = 0; y < border[x].length; y++) {
+			if (border[x][y] === true) {
+				context.fillStyle = "#0F0";
+				drawDot(context, x, y);
+			}
+		}
+	}
+	for (var i = 0; i < collisions.length; i++) {
+		context.fillStyle = "#F00";
+		drawDot(context, collisions[i][0], collisions[i][1]);
+	}
+});
+// isDefined performance?
+// OOP performance?
+// while not endless?
+// for in versus for var
+// check size of arrays!
+function drawDot(context, x, y) {
+	var width = context.canvas.width / 200.0;
+	var height = context.canvas.height / 200.0;
+
+	context.fillRect(x * width, y * height, width, height);
+}
+
+</script>
+<canvas id="canvas" width="400" height="400">
+</canvas>
+</body>
+</html>
+

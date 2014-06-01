@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="jquery-2.1.1.js"></script>
+	<script src="qunit-1.14.0.js"></script>
+	<link rel="stylesheet" href="qunit-1.14.0.css">
+</head>
+<body>
+<script src="check2.js"></script>
+<script>
+
+function isDefined(obj) {
+	return typeof obj !== 'undefined';
+};
+
+var deltaX = [-1, +0, +1, +1, +1, +0, -1, -1];
+var deltaY = [-1, -1, -1, +0, +1, +1, +1, +0];
+
+var walkerX = 1;
+var walkerY = 5;
+var walkerDir = 0;
+
+/*var border = new Array(200);
+for (var i = 0; i < 200; i++) {
+	border[i] = new Array(200);
+}*/
+
+$(document).ready(function() {
+	var history = window.history;
+	var border = window.border;
+	var collisions = window.collisions;
+
+	var context = document.getElementById('canvas').getContext("2d");
+	context.fillStyle = "#F9F9F9";
+	context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+/*
+	for (var i = 0; i < collisions.length; i++) {
+		var startX = collisions[i][0];
+		var startY = collisions[i][1];
+
+		if (border[startX][startY] !== true) {
+			walkerX = startX;
+			walkerY = startY;
+
+			do {
+				while (history[walkerX + deltaX[walkerDir]][walkerY + deltaY[walkerDir]] === true) {
+					walkerDir = (walkerDir + 1) % 8;
+				}
+				while (history[walkerX + deltaX[walkerDir]][walkerY + deltaY[walkerDir]] !== true) {
+					walkerDir = (walkerDir + 1) % 8;
+				}
+
+				walkerDir = (walkerDir + 7) % 8;
+
+				walkerX += deltaX[walkerDir];
+				walkerY += deltaY[walkerDir];
+
+				border[walkerX][walkerY] = true;
+			} while (walkerX !== startX || walkerY !== startY);
+		}
+	}*/
+
+	for (var x = 0; x < history.length; x++) {
+		for (var y = 0; y < history[x].length; y++) {
+			if (history[x][y] === true) {
+				context.fillStyle = "#9FC0D0";
+				drawDot(context, x, y);
+			}
+		}
+	}
+	for (var x = 0; x < border.length; x++) {
+		for (var y = 0; y < border[x].length; y++) {
+			if (border[x][y] === true) {
+				context.fillStyle = "#0F0";
+				drawDot(context, x, y);
+			}
+		}
+	}
+	for (var i = 0; i < collisions.length; i++) {
+		context.fillStyle = "#F00";
+		drawDot(context, collisions[i][0], collisions[i][1]);
+	}
+
+	context.fillStyle = "#00F";
+	drawDot(context, 27, 36);
+});
+// isDefined performance?
+// OOP performance?
+// while not endless?
+// for in versus for var
+// check size of arrays!
+function drawDot(context, x, y) {
+	var width = context.canvas.width / 200.0;
+	var height = context.canvas.height / 200.0;
+
+	context.fillRect(x * width, y * height, width, height);
+}
+
+</script>
+<canvas id="canvas" width="800" height="800">
+</canvas>
+</body>
+</html>
+

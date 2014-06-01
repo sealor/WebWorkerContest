@@ -13,11 +13,6 @@ function fillWalkStart(border) {
 }
 
 function fillWalk(border) {
-	// rechts gehen, wenn möglich
-	// gerade gehen, wenn möglich
-	// links gehen, wenn möglich
-	// sonst fertig!
-
 	turtleDir = (turtleDir + 2) % 8;
 	if (border[turtleX + deltaX[turtleDir]][turtleY + deltaY[turtleDir]] === true) {
 		turtleDir = (turtleDir + 6) % 8;
@@ -59,81 +54,7 @@ function fillSpace(border) {
 	}
 }
 
-test("fillTurtleTest: Walk the line", function() {
-	turtleX = 1;
-	turtleY = 5;
-	turtleDir = 1;
-
-	var border = "" +
-		"  1     \n" +
-		"  1     \n" +
-		"  1111  \n" +
-		"     1  \n" +
-		"  1111  \n" +
-		"  1     \n" +
-		"        \n";
-	border = convertToField(border);
-
-	for (var i = 0; i < 10; i++) {
-		fillWalk(border);
-
-		turtleX += deltaX[turtleDir];
-		turtleY += deltaY[turtleDir];
-	}
-
-	equal(turtleX, 1);
-	equal(turtleY, 1);
-});
-
-test("fillTurtleTest: Walk the cycle", function() {
-	turtleX = 1;
-	turtleY = 1;
-	turtleDir = 1;
-
-	var border = "" +
-		"          \n" +
-		"  111111  \n" +
-		"   11     \n" +
-		"    11    \n" +
-		"          \n" +
-		"          \n";
-	border = convertToField(border);
-
-	for (var i = 0; i < 24; i++) {
-		fillWalk(border);
-
-		turtleX += deltaX[turtleDir];
-		turtleY += deltaY[turtleDir];
-	}
-
-	equal(turtleX, 1);
-	equal(turtleY, 1);
-});
-
-test("fillTurtleTest: Walk around block", function() {
-	turtleX = 3;
-	turtleY = 1;
-	turtleDir = 1;
-
-	var border = "" +
-		"     \n" +
-		" 11  \n" +
-		"     \n";
-	border = convertToField(border);
-
-	fillWalkStart(border);
-	for (var i = 0; i < 10; i++) {
-		fillWalk(border);
-
-		turtleX += deltaX[turtleDir];
-		turtleY += deltaY[turtleDir];
-	}
-
-	equal(turtleX, 3);
-	equal(turtleY, 1);
-});
-
-test("fillTurtleTest: fill line", function() {
+test("FillTurtleTest: fill line", function() {
 	turtleX = 7;
 	turtleY = 1;
 	turtleDir = 1;
@@ -173,7 +94,7 @@ test("fillTurtleTest: fill line", function() {
 	equal(convertToText(border), fullBorder);
 });
 
-test("fillTurtleTest: fill rectangles", function() {
+test("FillTurtleTest: fill rectangles", function() {
 	turtleX = 1;
 	turtleY = 4;
 	turtleDir = 1;
@@ -232,7 +153,7 @@ test("fillTurtleTest: fill rectangles", function() {
 });
 
 
-test("fillTurtleTest: fill triangle", function() {
+test("FillTurtleTest: fill triangle", function() {
 	turtleX = 1;
 	turtleY = 4;
 	turtleDir = 1;
@@ -298,7 +219,7 @@ test("fillTurtleTest: fill triangle", function() {
 	equal(convertToText(border), fullBorder);
 });
 
-test("fillTurtleTest: fill small rectangle", function() {
+test("FillTurtleTest: fill small rectangle", function() {
 	turtleX = 1;
 	turtleY = 2;
 	turtleDir = 1;
@@ -348,7 +269,7 @@ test("fillTurtleTest: fill small rectangle", function() {
 	equal(convertToText(border), fullBorder);
 });
 
-test("fillTurtleTest: fill labyrinth", function() {
+test("FillTurtleTest: fill labyrinth", function() {
 	turtleX = 1;
 	turtleY = 2;
 	turtleDir = 1;

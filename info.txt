@@ -1,0 +1,14 @@
+http://www.w3.org/TR/workers/
+http://www.webworkercontest.net/
+
+http://news.qooxdoo.org/javascript-array-performance-oddities-characteristics
+
+http://jsperf.com/increase-array-versus-increase-local-variable
+http://jsperf.com/new-variable-vs-reuse-variable-2
+http://jsperf.com/iteration-arrays-vs-objects
+http://jsperf.com/array-vs-object-member-access
+http://jsperf.com/if-conditions-versus-switch-case-versus-array
+http://jsperf.com/string-array-index-access
+http://jsperf.com/array-versus-modulo
+http://jsperf.com/big-array-versus-index-calculation
+

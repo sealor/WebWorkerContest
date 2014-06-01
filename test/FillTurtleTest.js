@@ -26,24 +26,44 @@ function fillWalk(border) {
 				if (border[turtleX + deltaX[turtleDir]][turtleY + deltaY[turtleDir]] === true) {
 					turtleDir = null;
 					return;
+				} else {
+					border[turtleX][turtleY] = true;
+				}
+			} else {
+				var check0Dir = (turtleDir + 7) % 8;
+				if (border[turtleX + deltaX[check0Dir]][turtleY + deltaY[check0Dir]] !== true) {
+					border[turtleX][turtleY] = true;
 				}
 			}
+		} else {
+			var check0Dir = (turtleDir + 7) % 8;
+			var check7Dir = (turtleDir + 6) % 8;
+			var check6Dir = (turtleDir + 5) % 8;
+
+			if (border[turtleX + deltaX[check0Dir]][turtleY + deltaY[check0Dir]] !== true
+				&& border[turtleX + deltaX[check7Dir]][turtleY + deltaY[check7Dir]] !== true
+				&& border[turtleX + deltaX[check6Dir]][turtleY + deltaY[check6Dir]] !== true) {
+				border[turtleX][turtleY] = true;
+			}
+		}
+	} else {
+		var check0Dir = (turtleDir + 7) % 8;
+		var check7Dir = (turtleDir + 6) % 8;
+		var check6Dir = (turtleDir + 5) % 8;
+		var check5Dir = (turtleDir + 4) % 8;
+		var check4Dir = (turtleDir + 3) % 8;
+
+		if (border[turtleX + deltaX[check0Dir]][turtleY + deltaY[check0Dir]] !== true
+			&& border[turtleX + deltaX[check7Dir]][turtleY + deltaY[check7Dir]] !== true
+			&& border[turtleX + deltaX[check6Dir]][turtleY + deltaY[check6Dir]] !== true
+			&& border[turtleX + deltaX[check5Dir]][turtleY + deltaY[check5Dir]] !== true
+			&& border[turtleX + deltaX[check4Dir]][turtleY + deltaY[check4Dir]] !== true) {
+			border[turtleX][turtleY] = true;
 		}
 	}
 }
 
 function fillSpace(border) {
-	var check0Dir = (turtleDir + 7) % 8;
-	var check7Dir = (turtleDir + 6) % 8;
-	var check6Dir = (turtleDir + 5) % 8;
-	var check3Dir = (turtleDir + 2) % 8;
-	if (border[turtleX + deltaX[check0Dir]][turtleY + deltaY[check0Dir]] !== true
-		&& border[turtleX + deltaX[check7Dir]][turtleY + deltaY[check7Dir]] !== true
-		&& border[turtleX + deltaX[check6Dir]][turtleY + deltaY[check6Dir]] !== true
-		&& border[turtleX + deltaX[check3Dir]][turtleY + deltaY[check3Dir]] === true) {
-		border[turtleX][turtleY] = true;
-	}
-
 	var check3Dir = (turtleDir + 2) % 8;
 	var check5Dir = (turtleDir + 4) % 8;
 	var check7Dir = (turtleDir + 6) % 8;
@@ -262,8 +282,8 @@ test("FillTurtleTest: fill small rectangle", function() {
 		"111\n" +
 		"111\n" +
 		"111\n" +
-		"1  1\n" +
-		"11 1\n" +
+		"1111\n" +
+		"1111\n" +
 		" 11\n";
 
 	equal(convertToText(border), fullBorder);
@@ -304,8 +324,8 @@ test("FillTurtleTest: fill labyrinth", function() {
 	var fullBorder = "\n" +
 		"        1\n" +
 		" 111 11111\n" +
-		"11111  111\n" +
-		"11111 111\n" +
+		"1111111111\n" +
+		"111111111\n" +
 		"1111111\n" +
 		" 1111\n" +
 		"  11\n";
